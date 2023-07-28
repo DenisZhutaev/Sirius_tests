@@ -71,11 +71,28 @@ class BasePage:
         self.find_element(locator).send_keys(text)
 
     def status_code(self):
+        """
+        Возвращает статус-код запроса к базовому URL.
+
+        :return: статус-код запроса
+        """
         return requests.get(self.base_url).status_code
 
     def switch_tab(self):
+        """
+        Переключает фокус на вторую вкладку веб-браузера.
+
+        :return: None
+        """
         return self.driver.switch_to.window(self.driver.window_handles[1])
 
     def input_data_dict(self, data_dict):
+        """
+        Использует словарь с данными для ввода текста в поля ввода, найденные по соответствующим локаторам.
+
+        :param data_dict: словарь с локаторами и текстами для ввода
+        :return: None
+        """
         for locator, value in data_dict.items():
             self.input_data(locator, value)
+
