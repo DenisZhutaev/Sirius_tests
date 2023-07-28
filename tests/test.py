@@ -4,15 +4,33 @@ from time import sleep
 
 
 def test_code_two_hundred(auth):
+    """
+    Проверяет, что статус-код запроса к базовому URL равен 200.
+
+    :param auth: экземпляр класса Auth
+    :return: None
+    """
     assert auth.status_code() == 200
 
 
 def test_secure_connection(auth):
+    """
+    Проверяет, что соединение защищено протоколом HTTPS.
+
+    :param auth: экземпляр класса Auth
+    :return: None
+    """
     auth.go_to_site()
     assert auth.base_url.startswith("https://"), "Соединение не защищено HTTPS"
 
 
 def test_language_switching(auth):
+    """
+    Проверяет возможность переключения языка на странице.
+
+    :param auth: экземпляр класса Auth
+    :return: None
+    """
     auth.go_to_site()
     if auth.find_element(auth.LOCATOR_LANG).text == 'Рус':
         auth.click_element(auth.LOCATOR_LANG)
@@ -25,6 +43,12 @@ def test_language_switching(auth):
 
 
 def test_behavior_rules_link(auth):
+    """
+    Проверяет переход по ссылке "Правила поведения".
+
+    :param auth: экземпляр класса Auth
+    :return: None
+    """
     auth.go_to_site()
     auth.click_element(auth.LOCATOR_BEHAVIOR_RULES)
     auth.switch_tab()
@@ -32,6 +56,12 @@ def test_behavior_rules_link(auth):
 
 
 def test_personal_data_link(auth):
+    """
+    Проверяет переход по ссылке "Соглашение проверки персональных данных".
+
+    :param auth: экземпляр класса Auth
+    :return: None
+    """
     auth.go_to_site()
     auth.click_element(auth.LOCATOR_PERSONAL_DATA)
     auth.switch_tab()
@@ -39,6 +69,12 @@ def test_personal_data_link(auth):
 
 
 def test_term_of_use(auth):
+    """
+    Проверяет статус-код запроса при переходе по ссылке "Условия использования".
+
+    :param auth: экземпляр класса Auth
+    :return: None
+    """
     auth.go_to_site()
     auth.click_element(auth.LOCATOR_TERMS_OF_USE)
     auth.switch_tab()
@@ -46,6 +82,12 @@ def test_term_of_use(auth):
 
 
 def test_radio_button(auth):
+    """
+    Проверяет состояние радио-кнопок на странице.
+
+    :param auth: экземпляр класса Auth
+    :return: None
+    """
     auth.go_to_site()
     if auth.find_element(auth.LOCATOR_MAIN_OLYMPIAD) == auth.LOCATOR_OLYMPIAD_TRUE:
         auth.click_element(auth.LOCATOR_ADDITIONAL_OLYMPIAD)
@@ -58,6 +100,12 @@ def test_radio_button(auth):
 
 
 def test_checbox_button(auth):
+    """
+    Проверяет состояние чекбоксов на странице.
+
+    :param auth: экземпляр класса Auth
+    :return: None
+    """
     auth.go_to_site()
     checkboxes = auth.find_elements(auth.LOCATOR_CHECKBOX_RULES)
     for checkbox in checkboxes:
@@ -69,6 +117,13 @@ def test_checbox_button(auth):
                          ids=['SNILS must consist of exactly 11 digits', 'SNILS checksum does not match',
                               'SNILS cannot be less than 11 digits', 'SNILS must contain only numbers'])
 def test_auth_empty_phone(auth, snils_num):
+    """
+    Проверяет появление сообщения об ошибке при вводе некорректного СНИЛС.
+
+    :param auth: экземпляр класса Auth
+    :param snils_num: некорректный СНИЛС
+    :return: None
+    """
     auth.go_to_site()
     auth.click_element(auth.LOCATOR_SNILS_TEXT)
     auth.input_data(auth.LOCATOR_SNILS_TEXT, snils_num)
@@ -131,4 +186,3 @@ def test_valid_authorization_and_return(auth):
 
     # Проверка, что вернудись на страницу регистрации
     assert auth.find_element(auth.LOCATOR_REGISTER_PAGE)
-
